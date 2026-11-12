@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина - TechShop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; color: #333; }
+        .header { background: #1a1a1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
+        .logo span { color: #ffc107; }
+        .nav a { color: white; text-decoration: none; margin-left: 20px; }
+        
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .cart-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .cart-table th, .cart-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle;}
+        .cart-table th { background: #f1f1f1; font-weight: 600; }
+        .cart-table img { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; }
+        
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { display: inline-block; width: 30px; height: 30px; line-height: 28px; text-align: center; background: #eee; border-radius: 5px; text-decoration: none; color: #333; font-weight: bold; transition: background 0.2s; }
+        .qty-btn:hover { background: #ddd; }
+        .qty-value { font-weight: bold; font-size: 16px; min-width: 20px; text-align: center;}
+        
+        .cart-total { text-align: right; margin-top: 20px; font-size: 24px; font-weight: bold; }
+        .cart-total span { color: #e74c3c; }
+        .remove-btn { color: #e74c3c; text-decoration: none; font-weight: bold; font-size: 20px; }
+        .empty-cart { text-align: center; padding: 50px; background: white; border-radius: 10px; font-size: 20px; color: #777; }
+        .btn-checkout { display: inline-block; background: #27ae60; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 18px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/" class="logo">Tech<span>Shop</span></a>
+        <div class="nav">
+            <a href="/">← На главную</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 style="margin-bottom: 20px;">Ваша корзина</h1>
+        
+        <% if (items.length === 0) { %>
+            <div class="empty-cart">
+                <p>Корзина пуста 😢</p>
+                <a href="/" style="color: #2980b9; margin-top: 10px; display: inline-block;">Перейти к покупкам</a>
+            </div>
+        <% } else { %>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>Название</th>
+                        <th>Цена</th>
+                        <th>Кол-во</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% items.forEach(item => { %>
+                    <tr>
+                        <td><img src="<%= item.image %>" alt="<%= item.name %>"></td>
+                        <td><%= item.name %></td>
+                        <td><%= item.price %> ₽</td>
+                        <td>
+                            <div class="qty-controls">
+                                <a href="/update_cart/<%= item.id %>/dec" class="qty-btn">−</a>
+                                <span class="qty-value"><%= item.quantity %></span>
+                                <a href="/update_cart/<%= item.id %>/inc" class="qty-btn">+</a>
+                            </div>
+                        </td>
+                        <td><%= item.sum %> ₽</td>
+                        <td><a href="/remove_from_cart/<%= item.id %>" class="remove-btn" title="Удалить всё">✖</a></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            
+            <div class="cart-total">
+                Итого: <span><%= total %> ₽</span>
+            </div>
+            <div style="text-align: right;">
+                <a href="#" class="btn-checkout" onclick="alert('Оплата временно недоступна (демо)'); return false;">Оформить заказ</a>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

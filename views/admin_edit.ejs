@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title><%= action === 'add' ? 'Добавить' : 'Редактировать' %> товар</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; }
+        .header { background: #1a1a1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
+        .logo span { color: #ffc107; }
+        .nav a { color: white; text-decoration: none; margin-left: 20px; }
+        
+        .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .form-box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        label { display: block; margin-top: 15px; font-weight: 600; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; }
+        textarea { resize: vertical; height: 100px; }
+        
+        .btn-save { display: block; width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        .btn-save:hover { background: #219150; }
+        
+        .current-image { margin-top: 10px; }
+        .current-image img { width: 100px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/" class="logo">Tech<span>Shop</span></a>
+        <div class="nav">
+            <a href="/admin">← Назад в админку</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h1><%= action === 'add' ? 'Добавить товар' : 'Редактировать товар' %></h1>
+            
+            <form method="POST" enctype="multipart/form-data">
+                <label>Название</label>
+                <input type="text" name="name" value="<%= product ? product.name : '' %>" required>
+                
+                <label>Цена (₽)</label>
+                <input type="number" name="price" step="0.01" value="<%= product ? product.price : '' %>" required>
+                
+                <label>Описание</label>
+                <textarea name="description"><%= product ? product.description : '' %></textarea>
+                
+                <label>Ссылка на картинку (URL)</label>
+                <input type="text" name="imageUrl" value="<%= product ? product.image : '' %>" placeholder="https://...">
+                
+                <label>Или загрузить файл</label>
+                <input type="file" name="imageFile" accept="image/*">
+                
+                <% if (product && product.image) { %>
+                    <div class="current-image">
+                        <p>Текущая картинка:</p>
+                        <img src="<%= product.image %>" alt="Текущая">
+                    </div>
+                <% } %>
+                
+                <button type="submit" class="btn-save">
+                    <%= action === 'add' ? 'Добавить' : 'Сохранить' %>
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель - TechShop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; }
+        .header { background: #1a1a1a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
+        .logo span { color: #ffc107; }
+        .nav a { color: white; text-decoration: none; margin-left: 20px; }
+        
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .btn-add { display: inline-block; background: #27ae60; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+        .btn-add:hover { background: #219150; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f1f1f1; font-weight: 600; }
+        td img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+        
+        .actions a { text-decoration: none; margin-right: 10px; font-weight: bold; }
+        .btn-edit { color: #2980b9; }
+        .btn-delete { color: #e74c3c; }
+        
+        .alert { padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: 500; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-danger { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/" class="logo">Tech<span>Shop</span></a>
+        <div class="nav">
+            <a href="/">← На главную</a>
+            <a href="/logout">Выйти</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 style="margin-bottom: 20px;">Управление товарами</h1>
+        
+        <% messages.forEach(msg => { %>
+            <div class="alert alert-<%= msg.type %>"><%= msg.text %></div>
+        <% }) %>
+
+        <a href="/admin/add" class="btn-add">+ Добавить товар</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Фото</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(product => { %>
+                <tr>
+                    <td><img src="<%= product.image %>" alt="<%= product.name %>"></td>
+                    <td><%= product.name %></td>
+                    <td><%= product.price %> ₽</td>
+                    <td class="actions">
+                        <a href="/admin/edit/<%= product.id %>" class="btn-edit">✏ Редактировать</a>
+                        <a href="/admin/delete/<%= product.id %>" class="btn-delete" onclick="return confirm('Удалить этот товар?')">🗑 Удалить</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
